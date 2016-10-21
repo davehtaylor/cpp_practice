@@ -2,7 +2,7 @@
 #include <string>
 #include <chrono> //std::chrono::seconds
 #include <thread> //std::this_thread::sleep_for
-#include <random> //rand()
+#include <random> //srand(), rand()
 
 void thinking()
 {
@@ -14,6 +14,7 @@ void thinking()
 
     while (i <= 3)
     {
+        // Print three dots, slowly. Wait one second between printing each
         std::cout << '.';
         std::cout.flush();
         std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -68,11 +69,14 @@ int main()
         "When you are ready, press the enter key "
         "to recieve your answer." << std::endl;
 
+    // Wait for the user to press enter
     getchar();
 
+    // Print the thinking animation
     thinking();
     std::cout << std::endl;
 
+    // Print the response
     std::cout << responses[rand_index] << std::endl;
     std::cout << std::endl;
 
