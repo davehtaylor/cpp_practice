@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
-#include <chrono> //std::chrono::seconds
-#include <thread> //std::this_thread::sleep_for
+#include <chrono> //seconds()
+#include <thread> //sleep_for()
 #include <random> //srand(), rand()
+#include <ctime> //time()
 
 void thinking()
 {
@@ -30,8 +31,8 @@ int main()
     std::string spaces(5, ' ');
 
     // Random index to choose from the responses array
-    srand(time(NULL));
-    int rand_index = rand() % 19;
+    std::srand(std::time(NULL));
+    int rand_index = std::rand() % 19;
 
     // Eight ball responses
     std::string responses[] = {"It is certain",
@@ -66,11 +67,11 @@ int main()
     std::cout << std::endl;
 
     std::cout << "Think long and hard about your question. \n"
-        "When you are ready, press the enter key "
+        "When you are ready, press the enter key\n"
         "to recieve your answer." << std::endl;
 
     // Wait for the user to press enter
-    getchar();
+    std::getchar();
 
     // Print the thinking animation
     thinking();
