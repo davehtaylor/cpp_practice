@@ -1,9 +1,8 @@
 #include <iostream>
 #include <string>
-#include <chrono> //seconds()
+#include <chrono> //seconds(), time()
 #include <thread> //sleep_for()
 #include <random> //srand(), rand()
-#include <ctime> //time()
 
 void thinking()
 {
