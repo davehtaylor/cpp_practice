@@ -1,7 +1,10 @@
 #include <iostream>
 
+
 int greater(int x, int y)
 {
+    // Return the greater of two numbers
+
     if (x > y)
     {
         return x;
@@ -11,6 +14,7 @@ int greater(int x, int y)
         return y;
     }
 }
+
 
 int main()
 {
