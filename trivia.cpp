@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 
 
 struct Player
@@ -23,6 +24,10 @@ int main()
     // Variable for main menu choice
     int menu_choice;
 
+    // Variables for trivia data file. The user will choose a trivia category,
+    // and the input file will be assigned to the appropriate category file
+    std::string infile;
+    std::ifstream category_file;
 
     // Print a pretty banner
     std::cout << std::endl;
@@ -34,27 +39,54 @@ int main()
    
     std::cout << std::endl;
 
+    // Print the main menu
     std::cout << "MAIN MENU" << std::endl;
     std::cout << border << std::endl; 
 
-    std::cout << "1. Play Game" << std::endl;
-    std::cout << "2. Quit" << std::endl;
+    std::cout << "1. General Trivia" << std::endl;
+    std::cout << "2. Eighties Trivia" << std::endl;
+    std::cout << "3. Movie Trivia" << std::endl;
+    std::cout << "4. Music Trivia" << std::endl;
+    std::cout << "5. Quit" << std::endl;
 
-    while (menu_choice < 1 || menu_choice > 2)
+    std::cout << std::endl;
+
+    std::cout << "Selection: ";
+
+    while (menu_choice < 1 || menu_choice > 5)
     {
         // Make sure the player can only enter choices presented on the menu.
-        // If 1, play begins below. If 2, program exits.
-        
+        // The user will choose the category of trivia they want to play.
+
         std::cin >> menu_choice;
 
         switch (menu_choice)
         {
             case 1:
                 std::cout << std::endl;
-                std::cout << "Let's play the game!" << std::endl;
+                std::cout << "GENERAL TRIVIA" << std::endl;
                 std::cout << std::endl;
+                infile = "GeneralTrivia.csv";
                 break;
             case 2:
+                std::cout << std::endl;
+                std::cout << "EIGHTIES TRIVIA" << std::endl;
+                std::cout << std::endl;
+                infile = "EightiesTrivia.csv";
+                break;
+            case 3:
+                std::cout << std::endl;
+                std::cout << "MOVIE TRIVIA" << std::endl;
+                std::cout << std::endl;
+                infile = "MovieTrivia.csv";
+                break;
+            case 4:
+                std::cout << std::endl;
+                std::cout << "MUSIC TRIVIA" << std::endl;
+                std::cout << std::endl;
+                infile = "MusicTrivia.csv";
+                break;
+            case 5:
                 std::exit(0);
                 break;
             default:
@@ -68,9 +100,20 @@ int main()
     std::cout << "Please enter your name: ";
     std::cin >> Player1.name;
 
-    std::cout << "Hi " << Player1.name << ", your current "
-        "score is " << Player1.score << std::endl;
+    std::cout << "Hi " << Player1.name << std::endl;
 
+    // Initialize the category file with the apporpriate input file
+    category_file.open(infile, std::ios::in);
+
+    std::string line;
+
+    while (std::getline(category_file, line))
+    {
+        std::cout << line << std::endl;
+    }
+
+    // Close the category file
+    category_file.close();
 
     return 0;
 }
