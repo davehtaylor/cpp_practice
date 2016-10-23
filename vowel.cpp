@@ -1,4 +1,5 @@
 #include <iostream>
+#include <locale>
 
 
 bool is_vowel(char c)
@@ -6,7 +7,7 @@ bool is_vowel(char c)
     // Take in a character, and decide if it is a vowel. Return true if
     // it is, false if not.
 
-    if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+    if (std::tolower(c) == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
     {
         return true;
     }
