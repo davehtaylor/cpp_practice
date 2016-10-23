@@ -1,5 +1,4 @@
 #include <iostream>
-#include <locale>
 
 
 bool is_vowel(char c)
