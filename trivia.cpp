@@ -29,11 +29,17 @@ void get_questions(std::string file,
     // Open the category file with the apporpriate input file
     category_file.open(file, std::ios::in);
 
-    // Get each line from the file and append it to the vector
-    while (std::getline(category_file, line)) {
-        questions_and_answers->push_back(line);
+    // Make sure the file opened properly, then get each line 
+    // from the file and append it to the vector.
+    if (category_file.is_open()) {
+        while (std::getline(category_file, line)) {
+            questions_and_answers->push_back(line);
+        }
+    } else {
+        std::cout << "Error opening data file" << std::endl;
+        std::exit(0); 
     }
-    
+
     // Close the category file
     category_file.close();
 }
@@ -141,21 +147,32 @@ int main() {
     }
 
     // Figuring out how to split a string on a delimiter
+
     std::string s = questions_and_answers[0];
-    char delim = ',';
+    char delim = '\"';
+    std::string comma = ",";
     int start = 0;
     int found = s.find(delim);
+
     while (found != std::string::npos) {
-        std::cout << s.substr(start, (found - start)) << std::endl;
+        
+        // Make easy variables for the substrings
+        std::string tok = s.substr(start, (found - start));
+        std::string tok_end = s.substr(start, s.length());
+
+        // If the substring is just a comma, don't print anything.
+        // Otherwise, print the substring. This will allow the string
+        // to be split at the quotes, and then drop the commas between
+        if (tok == comma) {
+            std::cout << "";
+        } else {
+            std::cout << tok << std::endl;
+        }
+
         start = (found + 1);
         found = s.find(delim, start);
 
-        if (found == std::string::npos){
-            std::cout << s.substr(start, s.length());
-        }
     }
 
-    std::cout << std::endl;
-    
     return 0;
 }
