@@ -59,11 +59,11 @@ void string_split(std::string s) {
 // Outputs: no return value. Function will write the file data to a
 // vector, questions_and_answers
 void get_questions(std::string file, 
-                   std::vector<std::string>* questions_and_answers) {
+                   std::vector< std::vector<std::string> >& questions_and_answers) {
     
     // Variables for trivia data file. 
     std::ifstream category_file;
-    std::string line;
+    std::string tok;
 
     // Open the category file with the apporpriate input file
     category_file.open(file, std::ios::in);
@@ -71,8 +71,14 @@ void get_questions(std::string file,
     // Make sure the file opened properly, then get each line 
     // from the file and append it to the vector.
     if (category_file.is_open()) {
-        while (std::getline(category_file, line)) {
-            questions_and_answers->push_back(line);
+        while (std::getline(category_file, tok, ',')) {
+            for (int i = 0; i <= 9; i++) {
+                std::vector<std::string> row;
+                for (int j = 0; j <= 5; j++) {
+                    row.push_back(tok);
+                }
+                questions_and_answers.push_back(row);
+            }
         }
     } else {
         std::cout << "Error opening data file" << std::endl;
@@ -98,7 +104,7 @@ int main() {
     int menu_choice;
 
     // Vector to hold the trivia category data
-    std::vector<std::string> questions_and_answers;
+    std::vector< std::vector<std::string> > questions_and_answers;
 
     // ---------------------
 
@@ -140,25 +146,25 @@ int main() {
                 std::cout << std::endl;
                 std::cout << "GENERAL TRIVIA" << std::endl;
                 std::cout << std::endl;
-                get_questions("GeneralTrivia.csv", &questions_and_answers);
+                get_questions("GeneralTrivia.csv", questions_and_answers);
                 break;
             case 2:
                 std::cout << std::endl;
                 std::cout << "EIGHTIES TRIVIA" << std::endl;
                 std::cout << std::endl;
-                get_questions("EightiesTrivia.csv", &questions_and_answers);
+                get_questions("EightiesTrivia.csv", questions_and_answers);
                 break;
             case 3:
                 std::cout << std::endl;
                 std::cout << "MOVIE TRIVIA" << std::endl;
                 std::cout << std::endl;
-                get_questions("MovieTrivia.csv", &questions_and_answers);
+                get_questions("MovieTrivia.csv", questions_and_answers);
                 break;
             case 4:
                 std::cout << std::endl;
                 std::cout << "MUSIC TRIVIA" << std::endl;
                 std::cout << std::endl;
-                get_questions("MusicTrivia.csv", &questions_and_answers);
+                get_questions("MusicTrivia.csv", questions_and_answers);
                 break;
             case 5:
                 std::exit(0);
@@ -176,14 +182,25 @@ int main() {
 
 
     // Testing different outputs as I learn WTF I'm doing
-    int vect_size = questions_and_answers.size();
-    int i = 0;
-    while (i <= vect_size) {
-        std::cout << questions_and_answers[i] << std::endl;
-        i++;
-    }
+//    int vect_size = questions_and_answers.size();
+//    int i = 0;
+//    while (i <= vect_size) {
+//        std::cout << questions_and_answers[i] << std::endl;
+//        i++;
+//    }
 
-    string_split(questions_and_answers[0]);
+    std::cout << questions_and_answers[0][0] << std::endl;
+    std::cout << questions_and_answers[0][1] << std::endl;
+    std::cout << questions_and_answers[0][2] << std::endl;
+    std::cout << questions_and_answers[0][3] << std::endl;
+    std::cout << questions_and_answers[0][4] << std::endl;
+    std::cout << questions_and_answers[0][5] << std::endl;
 
+    std::cout << questions_and_answers[1][0] << std::endl;
+    std::cout << questions_and_answers[1][1] << std::endl;
+    std::cout << questions_and_answers[1][2] << std::endl;
+    std::cout << questions_and_answers[1][3] << std::endl;
+    std::cout << questions_and_answers[1][4] << std::endl;
+    std::cout << questions_and_answers[1][5] << std::endl;
     return 0;
 }
