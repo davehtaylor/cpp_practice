@@ -42,7 +42,7 @@ void string_split(std::string s) {
         } else {
             std::cout << tok << std::endl;
         }
-
+        
         start = (found + 1);
         found = s.find(delim, start);
 
