@@ -1,17 +1,46 @@
 #include <iostream>
-#include <string>
-#include <fstream>
-
+#include <string>   // string
+#include <fstream>  // ifstream
+#include <sstream>  // istringstream
+#include <vector>   // vector
 
 struct Player
 {
+    // Struct to hold player name and score
     std::string name;
     int score = 0;
 };
 
 
+void get_questions(std::string file, 
+        std::vector<std::string>* questions_and_answers)
+{
+    // Take the file needed for the questions, open it, add the info to a
+    // vector, then close the file.
+    
+    // Variables for trivia data file. The user will choose a trivia category,
+    // and the input file will be assigned to the appropriate category file
+    std::ifstream category_file;
+    std::string line;
+
+    // Open the category file with the apporpriate input file
+    category_file.open(file, std::ios::in);
+
+    while (std::getline(category_file, line))
+    {
+        //std::cout << line << std::endl;
+        questions_and_answers->push_back(line);
+    }
+    
+    // Close the category file
+    category_file.close();
+}
+
+
 int main()
 {
+
+    // -- Variables ---
 
     // Initialize a player struct
     struct Player Player1;
@@ -24,10 +53,11 @@ int main()
     // Variable for main menu choice
     int menu_choice;
 
-    // Variables for trivia data file. The user will choose a trivia category,
-    // and the input file will be assigned to the appropriate category file
-    std::string infile;
-    std::ifstream category_file;
+    // Vector to hold the category data
+    std::vector<std::string> questions_and_answers;
+
+    // ----------------
+
 
     // Print a pretty banner
     std::cout << std::endl;
@@ -66,25 +96,25 @@ int main()
                 std::cout << std::endl;
                 std::cout << "GENERAL TRIVIA" << std::endl;
                 std::cout << std::endl;
-                infile = "GeneralTrivia.csv";
+                get_questions("GeneralTrivia.csv", &questions_and_answers);
                 break;
             case 2:
                 std::cout << std::endl;
                 std::cout << "EIGHTIES TRIVIA" << std::endl;
                 std::cout << std::endl;
-                infile = "EightiesTrivia.csv";
+                get_questions("EightiesTrivia.csv", &questions_and_answers);
                 break;
             case 3:
                 std::cout << std::endl;
                 std::cout << "MOVIE TRIVIA" << std::endl;
                 std::cout << std::endl;
-                infile = "MovieTrivia.csv";
+                get_questions("MovieTrivia.csv", &questions_and_answers);
                 break;
             case 4:
                 std::cout << std::endl;
                 std::cout << "MUSIC TRIVIA" << std::endl;
                 std::cout << std::endl;
-                infile = "MusicTrivia.csv";
+                get_questions("MusicTrivia.csv", &questions_and_answers);
                 break;
             case 5:
                 std::exit(0);
@@ -102,18 +132,12 @@ int main()
 
     std::cout << "Hi " << Player1.name << std::endl;
 
-    // Initialize the category file with the apporpriate input file
-    category_file.open(infile, std::ios::in);
-
-    std::string line;
-
-    while (std::getline(category_file, line))
+    int vect_size = questions_and_answers.size();
+    int i = 0;
+    while (i <= vect_size)
     {
-        std::cout << line << std::endl;
+        std::cout << questions_and_answers[i] << std::endl;
+        i++;
     }
-
-    // Close the category file
-    category_file.close();
-
     return 0;
 }
