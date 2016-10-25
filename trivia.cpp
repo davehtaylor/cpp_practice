@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>   // std::string
+#include <sstream>  // std::istringstream
 #include <fstream>  // std::ifstream
 #include <vector>   // std::vector
 
@@ -9,45 +10,6 @@ struct Player {
     std::string name;
     int score = 0;
 };
-
-
-// Function to split a string on a delimiter.
-//
-// Arguments taken: a string. Possilby a vector. Still
-// working on that bit.
-//
-// Returns: not sure yet. May use return, might simply
-// write to a vector. Using void return at the moment until 
-// I sort it out.
-void string_split(std::string s) {
-
-    char delim = '\"';
-    std::string comma = ",";
-    int start = 0;
-    int found = s.find(delim);
-
-    while (found != std::string::npos) {
-        
-        // Make easy variables for the substrings
-        std::string tok = s.substr(start, (found - start));
-        std::string tok_end = s.substr(start, s.length());
-
-        // If the substring is just a comma, don't print anything.
-        // Otherwise, print the substring. This will allow the string
-        // to be split at the quotes, and then drop the commas between
-        // Eventually this won't print things out, but will most likely
-        // write the tokens to something else. Will update as I change it.
-        if (tok == comma) {
-            std::cout << "";
-        } else {
-            std::cout << tok << std::endl;
-        }
-        
-        start = (found + 1);
-        found = s.find(delim, start);
-
-    }
-}
 
 
 // Take the file needed for the questions, open it, add the info to a
@@ -63,6 +25,7 @@ void get_questions(std::string file,
     
     // Variables for trivia data file. 
     std::ifstream category_file;
+    std::string line;
     std::string tok;
 
     // Open the category file with the apporpriate input file
@@ -71,14 +34,17 @@ void get_questions(std::string file,
     // Make sure the file opened properly, then get each line 
     // from the file and append it to the vector.
     if (category_file.is_open()) {
-        while (std::getline(category_file, tok, ',')) {
-            for (int i = 0; i <= 9; i++) {
-                std::vector<std::string> row;
-                for (int j = 0; j <= 5; j++) {
-                    row.push_back(tok);
-                }
-                questions_and_answers.push_back(row);
-            }
+
+        while (std::getline(category_file, line)) {
+
+            std::vector<std::string> row;
+            std::istringstream iss (line);
+            
+            while (std::getline(iss, tok, ',')) {
+                row.push_back(tok);
+            } 
+
+            questions_and_answers.push_back(row);
         }
     } else {
         std::cout << "Error opening data file" << std::endl;
@@ -103,7 +69,9 @@ int main() {
     // Variable for main menu choice
     int menu_choice;
 
-    // Vector to hold the trivia category data
+    // Multidimensional vector to hold the trivia category data
+    // Each row will be the question, correct answer, and answer choices
+    // for each question presented to the user.
     std::vector< std::vector<std::string> > questions_and_answers;
 
     // ---------------------
@@ -180,15 +148,6 @@ int main() {
 
     std::cout << "Hi " << Player1.name << std::endl;
 
-
-    // Testing different outputs as I learn WTF I'm doing
-//    int vect_size = questions_and_answers.size();
-//    int i = 0;
-//    while (i <= vect_size) {
-//        std::cout << questions_and_answers[i] << std::endl;
-//        i++;
-//    }
-
     std::cout << questions_and_answers[0][0] << std::endl;
     std::cout << questions_and_answers[0][1] << std::endl;
     std::cout << questions_and_answers[0][2] << std::endl;
@@ -202,5 +161,6 @@ int main() {
     std::cout << questions_and_answers[1][3] << std::endl;
     std::cout << questions_and_answers[1][4] << std::endl;
     std::cout << questions_and_answers[1][5] << std::endl;
+
     return 0;
 }
