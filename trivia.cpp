@@ -1,34 +1,36 @@
 #include <iostream>
-#include <string>   // string
-#include <fstream>  // ifstream
-#include <sstream>  // istringstream
-#include <vector>   // vector
+#include <string>   // std::string
+#include <fstream>  // std::ifstream
+#include <vector>   // std::vector
 
-struct Player
-{
-    // Struct to hold player name and score
+
+// Struct to hold player name and score
+struct Player {
     std::string name;
     int score = 0;
 };
 
 
+// Take the file needed for the questions, open it, add the info to a
+// vector, then close the file. 
+//
+// Arguments taken: the file to be used as input, and a pointer to 
+// the vector where the information will be stored.
+//
+// Outputs: no return value. Function will write the file data to a
+// vector, questions_and_answers
 void get_questions(std::string file, 
-        std::vector<std::string>* questions_and_answers)
-{
-    // Take the file needed for the questions, open it, add the info to a
-    // vector, then close the file.
+                   std::vector<std::string>* questions_and_answers) {
     
-    // Variables for trivia data file. The user will choose a trivia category,
-    // and the input file will be assigned to the appropriate category file
+    // Variables for trivia data file. 
     std::ifstream category_file;
     std::string line;
 
     // Open the category file with the apporpriate input file
     category_file.open(file, std::ios::in);
 
-    while (std::getline(category_file, line))
-    {
-        //std::cout << line << std::endl;
+    // Get each line from the file and append it to the vector
+    while (std::getline(category_file, line)) {
         questions_and_answers->push_back(line);
     }
     
@@ -37,15 +39,12 @@ void get_questions(std::string file,
 }
 
 
-int main()
-{
-
-    // -- Variables ---
+int main() {
 
     // Initialize a player struct
     struct Player Player1;
     
-    // Variables for the banner and menu
+    // Variables for the banner and menu borders
     std::string stars(31, '*');
     std::string spaces(10, ' ');
     std::string border(9, '*');
@@ -53,11 +52,10 @@ int main()
     // Variable for main menu choice
     int menu_choice;
 
-    // Vector to hold the category data
+    // Vector to hold the trivia category data
     std::vector<std::string> questions_and_answers;
 
-    // ----------------
-
+    // ---------------------
 
     // Print a pretty banner
     std::cout << std::endl;
@@ -83,15 +81,16 @@ int main()
 
     std::cout << "Selection: ";
 
-    while (menu_choice < 1 || menu_choice > 5)
-    {
-        // Make sure the player can only enter choices presented on the menu.
-        // The user will choose the category of trivia they want to play.
+    // Make sure the player can only enter choices presented on the menu.
+    // The user will choose the category of trivia they want to play.
+    // For each category option, the category questions and answers file
+    // will be passed to the get_questions function, along with the vector
+    // in which the data will be stored. 
+    while (menu_choice < 1 || menu_choice > 5) {
 
         std::cin >> menu_choice;
 
-        switch (menu_choice)
-        {
+        switch (menu_choice) {
             case 1:
                 std::cout << std::endl;
                 std::cout << "GENERAL TRIVIA" << std::endl;
@@ -132,12 +131,31 @@ int main()
 
     std::cout << "Hi " << Player1.name << std::endl;
 
+
+    // Testing different outputs as I learn WTF I'm doing
     int vect_size = questions_and_answers.size();
     int i = 0;
-    while (i <= vect_size)
-    {
+    while (i <= vect_size) {
         std::cout << questions_and_answers[i] << std::endl;
         i++;
     }
+
+    // Figuring out how to split a string on a delimiter
+    std::string s = questions_and_answers[0];
+    char delim = ',';
+    int start = 0;
+    int found = s.find(delim);
+    while (found != std::string::npos) {
+        std::cout << s.substr(start, (found - start)) << std::endl;
+        start = (found + 1);
+        found = s.find(delim, start);
+
+        if (found == std::string::npos){
+            std::cout << s.substr(start, s.length());
+        }
+    }
+
+    std::cout << std::endl;
+    
     return 0;
 }
