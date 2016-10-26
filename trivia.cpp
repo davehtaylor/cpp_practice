@@ -29,7 +29,7 @@ std::string strip_beg_end (std::string in_string) {
 // Take the file needed for the questions, open it, add the info to a
 // vector, then close the file. 
 //
-// Arguments taken: the file to be used as input, and a pointer to 
+// Arguments taken: the file to be used as input, and a reference to 
 // the vector where the information will be stored.
 //
 // Returns: no return value. Function will write the file data to a
@@ -66,7 +66,6 @@ void get_questions(std::string file,
         std::exit(0); 
     }
 
-    // Close the category file
     category_file.close();
 }
 
@@ -89,7 +88,6 @@ int main() {
     // for each question presented to the user.
     std::vector< std::vector<std::string> > questions_and_answers;
 
-    // ---------------------
 
     // Print a pretty banner
     std::cout << std::endl;
@@ -163,19 +161,19 @@ int main() {
 
     std::cout << "Hi " << Player1.name << std::endl;
 
-    std::cout << questions_and_answers[0][0] << std::endl;
-    std::cout << questions_and_answers[0][1] << std::endl;
-    std::cout << questions_and_answers[0][2] << std::endl;
-    std::cout << questions_and_answers[0][3] << std::endl;
-    std::cout << questions_and_answers[0][4] << std::endl;
-    std::cout << questions_and_answers[0][5] << std::endl;
+    int i = 0;
+    int j = 0;
+    int row_len = questions_and_answers.size();
+    int col_len = questions_and_answers[0].size();
 
-    std::cout << questions_and_answers[1][0] << std::endl;
-    std::cout << questions_and_answers[1][1] << std::endl;
-    std::cout << questions_and_answers[1][2] << std::endl;
-    std::cout << questions_and_answers[1][3] << std::endl;
-    std::cout << questions_and_answers[1][4] << std::endl;
-    std::cout << questions_and_answers[1][5] << std::endl;
-
+    while (i < row_len) {
+        while (j < col_len) {
+            std::cout << questions_and_answers[i][j] << std::endl;
+            j++;
+        }
+        i++;
+        j = 0;
+    }
+    
     return 0;
 }
