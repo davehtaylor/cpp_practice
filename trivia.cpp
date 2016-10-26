@@ -12,16 +12,31 @@ struct Player {
 };
 
 
+// Strip the beginning and end characters from a string. 
+// 
+// Arguments taken: a string.
+//
+// Returns: the string, stripped of leading and trailing characters
+std::string strip_beg_end (std::string in_string) {
+
+    in_string.erase (0, 1);
+    in_string.erase (in_string.end() - 1);
+
+    return in_string;
+}
+
+
 // Take the file needed for the questions, open it, add the info to a
 // vector, then close the file. 
 //
 // Arguments taken: the file to be used as input, and a pointer to 
 // the vector where the information will be stored.
 //
-// Outputs: no return value. Function will write the file data to a
+// Returns: no return value. Function will write the file data to a
 // vector, questions_and_answers
 void get_questions(std::string file, 
-                   std::vector< std::vector<std::string> >& questions_and_answers) {
+                   std::vector< std::vector<std::string> >& 
+                   questions_and_answers) {
     
     // Variables for trivia data file. 
     std::ifstream category_file;
@@ -41,7 +56,7 @@ void get_questions(std::string file,
             std::istringstream iss (line);
             
             while (std::getline(iss, tok, ',')) {
-                row.push_back(tok);
+                row.push_back(strip_beg_end(tok));
             } 
 
             questions_and_answers.push_back(row);
