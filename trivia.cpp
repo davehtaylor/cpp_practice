@@ -19,7 +19,7 @@ struct Player {
 // Returns: the string, stripped of leading and trailing characters
 std::string strip_beg_end (std::string in_string) {
 
-    in_string.erase (0, 1);
+    in_string.erase (in_string.begin());
     in_string.erase (in_string.end() - 1);
 
     return in_string;
