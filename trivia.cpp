@@ -38,16 +38,12 @@ void get_questions(std::string file,
                    std::vector< std::vector<std::string> >& 
                    questions_and_answers) {
     
-    // Variables for trivia data file. 
     std::ifstream category_file;
     std::string line;
     std::string tok;
 
-    // Open the category file with the apporpriate input file
     category_file.open(file, std::ios::in);
 
-    // Make sure the file opened properly, then get each line 
-    // from the file and append it to the vector.
     if (category_file.is_open()) {
 
         while (std::getline(category_file, line)) {
@@ -55,7 +51,7 @@ void get_questions(std::string file,
             std::vector<std::string> row;
             std::istringstream iss (line);
             
-            while (std::getline(iss, tok, ',')) {
+            while (std::getline(iss, tok, '|')) {
                 row.push_back(strip_beg_end(tok));
             } 
 
@@ -67,6 +63,73 @@ void get_questions(std::string file,
     }
 
     category_file.close();
+}
+
+
+// Function to test if the player response is correct.
+//
+// Arguments taken: a string of the vector element holding the 
+// correct answer, and player response. 
+//
+// Returns: correct or incorrect.
+std::string test_response(std::string correct_answer, 
+                          std::string player_response) {
+    
+    if (player_response == "q") {
+        std::exit(0);
+    } else if (player_response == correct_answer) {
+        return "correct";
+    } else {
+        return "incorrect";
+    }
+
+}
+
+
+// Function to present the questions to the player.
+//
+// Arguments taken: category data vector, reference to player struct
+//
+// Returns: no return value
+void ask_questions(std::vector< std::vector<std::string> > q_and_a,
+                   Player& player) {
+
+    int i = 0;
+    int row_len = q_and_a.size();
+    std::string player_response;
+    std::string stars(25, '*');
+
+
+    while (i < row_len) {
+
+        std::cout << "Current score: " << player.score << std::endl;
+        std::cout << std::endl;
+
+        std::cout << q_and_a[i][0] << std::endl;
+        std::cout << q_and_a[i][2] << std::endl;
+        std::cout << q_and_a[i][3] << std::endl;
+        std::cout << q_and_a[i][4] << std::endl;
+        std::cout << q_and_a[i][5] << std::endl;
+
+        std::cout << std::endl;
+
+        std::cout << "Response: ";
+        std::cin >> player_response;
+
+        if (test_response(q_and_a[i][1], player_response) == "correct") {
+
+            std::cout << "That's correct!" << std::endl;
+            player.score += 10;
+
+        } else {
+
+            std::cout << "Sorry, that's incorrect." << std::endl;
+        }
+
+        i++;
+        std::cout << stars << std::endl;
+        std::cout << std::endl;
+    }
 }
 
 
@@ -159,21 +222,30 @@ int main() {
     std::cout << "Please enter your name: ";
     std::cin >> Player1.name;
 
-    std::cout << "Hi " << Player1.name << std::endl;
+    std::cout << "Hi " << Player1.name << ", let's get started!" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Type 'q' at any time to quit" << std::endl;
+    std::cout << stars << std::endl;
+    std::cout << std::endl;
 
-    int i = 0;
-    int j = 0;
-    int row_len = questions_and_answers.size();
-    int col_len = questions_and_answers[0].size();
-
-    while (i < row_len) {
-        while (j < col_len) {
-            std::cout << questions_and_answers[i][j] << std::endl;
-            j++;
-        }
-        i++;
-        j = 0;
-    }
+    // Ask the questions
+    ask_questions(questions_and_answers, Player1);
     
+    // Give the player their score and an appropriate congratulations
+    std::cout << "Great game, " << Player1.name << "!" << std::endl;
+    std::cout << "Your final score: " << Player1.score << std::endl;
+
+    if (Player1.score == 100) {
+        std::cout << "Congratulations! Perfect score!" << std::endl;
+    } else if (Player1.score >= 80) {
+        std::cout << "Great score!" << std::endl;
+    } else if (Player1.score >= 60) {
+        std::cout << "Could be better. Maybe next time." << std::endl;
+    } else if (Player1.score >= 50) {
+        std::cout << "Might need a bit of studying." << std::endl;
+    } else {
+        std::cout << "Hit the books and try again later." << std::endl;
+    }
+
     return 0;
 }
