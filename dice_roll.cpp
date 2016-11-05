@@ -34,24 +34,30 @@ int main() {
     std::vector<int> d12 {1,2,3,4,5,6,7,8,9,10,11,12};
     std::vector<int> d20 {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 
-    unsigned int seed = 
-        std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine rand_generator;
+    unsigned int seed1 = 
+        std::chrono::system_clock::now().time_since_epoch().count();
+    unsigned int seed2 = (seed1 * seed1 + 256);
+    unsigned int seed3 = (seed2 * seed2 + 768);
+    unsigned int seed4 = (seed3 * seed3 + 512);
+    unsigned int seed5 = (seed4 * seed4 + 128);
+    unsigned int seed6 = (seed5 * seed5 + 4096);
+    unsigned int seed7 = (seed6 * seed6 + 2048);
 
     std::shuffle(std::begin(d4), std::end(d4),
-        std::default_random_engine(seed));
+        std::default_random_engine(seed1));
     std::shuffle(std::begin(d6), std::end(d6),
-        std::default_random_engine(seed));
+        std::default_random_engine(seed2));
     std::shuffle(std::begin(d8), std::end(d8),
-        std::default_random_engine(seed));
+        std::default_random_engine(seed3));
     std::shuffle(std::begin(d10), std::end(d10),
-        std::default_random_engine(seed));
+        std::default_random_engine(seed4));
     std::shuffle(std::begin(d10p), std::end(d10p),
-        std::default_random_engine(seed));
+        std::default_random_engine(seed5));
     std::shuffle(std::begin(d12), std::end(d12),
-        std::default_random_engine(seed));
+        std::default_random_engine(seed6));
     std::shuffle(std::begin(d20), std::end(d20),
-        std::default_random_engine(seed));
+       std::default_random_engine(seed7));
 
     std::cout << "d4: " << d4[0] << std::endl;
     std::cout << "d6: " << d6[0] << std::endl;
