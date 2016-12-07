@@ -10,16 +10,19 @@
 
 int main() {
 
-    float K = 2.97e-19;                 // Kepler's Constant
+    const float K = 2.97e-19;           // Kepler's Constant
     float a;
 
-    std::cout << "Enter the radius or mean distance of the object, in meters: "; 
+    std::cout << "Enter the radius or mean distance of the object, " 
+        "in meters. (Hint: you can enter scientific notation, "
+        "e.g. 15e10): "; 
     std::cin >> a; 
 
     float T = sqrt(K * pow(a, 3.0));    // computes period in seconds
     float period = T/60/60/24/365;      // convert from seconds to years
 
-    std::cout << "The object's period is " << period << " years." << std::endl;
+    std::cout << "The object's period is " << period 
+        << " years." << std::endl;
 
     return 0;
 }
